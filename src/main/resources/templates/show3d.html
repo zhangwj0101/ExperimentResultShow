@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <title>Hello World!</title>
+    <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.js"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <!--<script src="https://img.hcharts.cn/highstock/highstock.js"></script>-->
+    <script src="http://code.highcharts.com/highcharts-3d.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://img.hcharts.cn/highcharts/modules/data.js"></script>
+    <script src="https://code.highcharts.com/modules/boost.js"></script>
+    <script th:src="@{'/newsgroup_3d/'+${datatype}+'_tsne_'+${method}+'-d3.csv.js'}"></script>
+</head>
+<body style="background-color: beige;">
+<form id="form" action="/show3d" target="_blank">
+    <select name="cat">
+        <option value="comp_rec">comp_rec</option>
+        <option value="comp_sci">comp_sci</option>
+        <option value="comp_talk">comp_talk</option>
+        <option value="rec_sci">rec_sci</option>
+        <option value="rec_talk">rec_talk</option>
+        <option value="sci_talk">sci_talk</option>
+    </select>
+    <select name="compareMethod">
+        <option value="">全部对比</option>
+        <option value="mtrick">mtrick</option>
+        <option value="DTL">DTL</option>
+        <option value="TriTL">TriTL</option>
+        <option value="LAM">our</option>
+        <option value="LSF">our</option>
+    </select>
+    <input type="submit" name="提交"/>
+</form>
+<script th:inline="javascript">
+    var compareMehtodData = [];
+    var othermethod = [[${method}]];
+    if (othermethod == 'mtrick') {
+        compareMehtodData = mtrick;
+    }
+    else if (othermethod == 'DTL') {
+        compareMehtodData = DTL;
+    }
+    else if (othermethod == 'TriTL') {
+        compareMehtodData = TriTL;
+    }
+    else if (othermethod == 'LAM') {
+        compareMehtodData = LAM;
+    } else if (othermethod == 'LSF') {
+        compareMehtodData = LSF;
+    }
+    console.log(othermethod);
+    console.log(compareMehtodData);
+</script>
+<!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+<!--<div id="head" style="width: 100%;height:25px;text-align:center;">文档降维可视化展示</div>-->
+<!--<div id="head" style="height: 50px; "></div>-->
+<div id="container" style="height: 900px; width: 80%; align:center;margin:0 auto;"></div>
+<script type="text/javascript">
+    $(function () {
+        // Give the points a 3D feel by adding a radial gradient
+
+        // Set up the chart
+        var chart = new Highcharts.Chart({
+            chart: {
+                renderTo: 'container',
+                margin: [80, 50, 100, 50],
+                type: 'scatter',
+                options3d: {
+                    enabled: true,
+                    alpha: 4,
+                    beta: 45,
+                    depth: 500,
+                    viewDistance: 200,
+                    frame: {
+                        bottom: {size: 2, color: 'rgba(0,0,0,0.25)'},
+                        back: {size: 2, color: 'rgba(0,0,0,0.25)'},
+                        side: {size: 2, color: 'rgba(0,0,0,0.25)'}
+                    }
+                }
+            },
+            /*exporting: {
+             allowHTML: true,
+             //buttons: {…}
+             filename: "chart",
+             printMaxWidth: 7000,
+             scale: 4,
+             //sourceHeight:,
+             //sourceWidth:,
+             //type: "image/png"
+             //url: "https://export.highcharts.com"
+             width: 3500
+             },*/
+            title: {
+                style: {"font-size": "40px", "font-family": "黑体", "font-weight": "bold"},
+                text: '3D可视化展示数据降维示意图',
+                y: 25
+            },
+            subtitle: {
+                style: {"font-size": "20px"},
+                y: 60
+            },
+            plotOptions: {
+                scatter: {
+                    width: 10,
+                    height: 10,
+                    depth: 10
+                }
+            },
+            yAxis: {
+                softMin: -70,
+                softMax: 90,
+                title: null, labels: {
+                    style: {
+                        fontSize: '20px'
+                    }
+                }
+            },
+            xAxis: {
+                softMin: -70,
+                softMax: 90,
+                gridLineWidth: 1,
+                labels: {
+                    style: {
+                        fontSize: '20px'
+                    }
+                }
+            },
+            zAxis: {
+                min: -50,
+                max: 60,
+                labels: {
+                    style: {
+                        fontSize: '20px'
+                    }
+                }
+            },
+            legend: {
+                enabled: true
+            },
+            series: [{
+                name: 'Reading',
+                animation: true,
+                color: 'red',
+                data: compareMehtodData[0]
+            },
+                {
+                    name: 'Reading',
+                    animation: true,
+                    color: 'blue',
+                    data: compareMehtodData[1]
+                }]
+        });
+        // Add mouse events for rotation
+        $(chart.container).bind('mousedown.hc touchstart.hc', function (e) {
+            e = chart.pointer.normalize(e);
+            var posX = e.pageX,
+                    posY = e.pageY,
+                    alpha = chart.options.chart.options3d.alpha,
+                    beta = chart.options.chart.options3d.beta,
+                    newAlpha,
+                    newBeta,
+                    sensitivity = 10; // lower is more sensitive
+            $(document).bind({
+                'mousemove.hc touchdrag.hc': function (e) {
+                    // Run beta
+                    newBeta = beta + (posX - e.pageX) / sensitivity;
+                    //newBeta = Math.min(100, Math.max(-100, newBeta));
+                    chart.options.chart.options3d.beta = newBeta;
+                    // Run alpha
+                    //newAlpha = alpha + (e.pageY - posY) / sensitivity;
+                    //newAlpha = Math.min(100, Math.max(-100, newAlpha));
+                    //chart.options.chart.options3d.alpha = newAlpha;
+                    chart.redraw(false);
+                },
+                'mouseup touchend': function () {
+                    $(document).unbind('.hc');
+                }
+            });
+        });
+    });
+
+</script>
+</body>
+</html>

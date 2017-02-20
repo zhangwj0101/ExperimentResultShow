@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>ECharts</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/3.4.0/echarts.min.js"></script>
+</head>
+<body style="background-color: beige;">
+<!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+<div id="head" style="width: 100%;height:50px;text-align:center;"></div>
+<div id="main" style="align:center;margin:0 auto;width: 100%;height:680px;"></div>
+<script type="text/javascript">
+    // 基于准备好的dom，初始化echarts实例
+
+    var worldMapContainer = document.getElementById('main');
+
+    var resizeWorldMapContainer = function () {
+        worldMapContainer.style.width = window.innerHeight * 1.6 + 'px';
+        worldMapContainer.style.height = window.innerHeight * 0.85 + 'px';
+    };
+
+    resizeWorldMapContainer();
+    var myChart = echarts.init(worldMapContainer);
+
+    // 指定图表的配置项和数据
+
+
+    option = {
+        title: {
+            text: '20newsgroup数据集展示'
+        },
+        tooltip: {
+            trigger: 'axis'
+        },
+        legend: {
+            data: ['Train', 'Test']
+        },
+        toolbox: {
+            show: true,
+            feature: {
+                dataView: {show: true, readOnly: false},
+                magicType: {show: true, type: ['line', 'bar']},
+                restore: {show: true},
+                saveAsImage: {show: true}
+            }
+        },
+        calculable: true,
+        xAxis: [
+            {
+                type: 'category',
+                data: ['comp_rec', 'comp_sci', 'comp_talk', 'rec_sci', 'rec_talk', 'sci_talk']
+            }
+        ],
+        yAxis: [
+            {
+                type: 'value'
+            }
+        ],
+        series: [
+            {
+                name: 'Train',
+                type: 'bar',
+                data: [3884, 3883, 3753, 3939, 3809, 3808]/*,
+             markLine : {
+             data : [
+             {type : 'average', name: '平均值'}
+             ]
+             }*/
+            },
+            {
+                name: 'Test',
+                type: 'bar',
+                data: [3901, 3887, 3321, 3930, 3364, 3364]/*,
+             markLine : {
+             data : [
+             {type : 'average', name : '平均值'}
+             ]
+             }*/
+            }
+        ]
+    };
+
+    // 使用刚指定的配置项和数据显示图表。
+    myChart.setOption(option);
+    window.onresize = function () {
+        resizeWorldMapContainer();
+        myChart.resize();
+    };
+</script>
+</body>
+</html>

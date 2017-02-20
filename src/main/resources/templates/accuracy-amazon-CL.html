@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/3.4.0/echarts.min.js"></script>
+</head>
+<body style="background-color: beige;">
+<!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+<div id="head" style="width: 100%;height:50px;text-align:center;"></div>
+<div id="main" style="align:center;margin:0 auto;width: 100%;height:680px;"></div>
+<script type="text/javascript">
+    // 基于准备好的dom，初始化echarts实例
+
+    var worldMapContainer = document.getElementById('main');
+
+    var resizeWorldMapContainer = function () {
+        worldMapContainer.style.width = window.innerHeight * 1.6 + 'px';
+        worldMapContainer.style.height = window.innerHeight * 0.85 + 'px';
+    };
+
+    resizeWorldMapContainer();
+    var myChart = echarts.init(worldMapContainer);
+
+    // 指定图表的配置项和数据
+
+
+    option = {
+        title: {
+            text: ''
+        },
+        tooltip: {
+            trigger: 'axis'
+        },
+        legend: {
+            data: ['LR', 'SVM', 'Mtrick', 'TriTL', 'HIDC', 'DTL', 'CL-SCL', 'LAM-TL'],
+            textStyle: {
+                fontSize: 25 // 让字体变大
+            }
+        },
+        toolbox: {
+            show: true,
+            feature: {
+                dataView: {show: true, readOnly: false},
+                magicType: {show: true, type: ['line', 'bar']},
+                restore: {show: true},
+                saveAsImage: {show: true}
+            }
+        },
+        calculable: true,
+        xAxis: [
+            {
+                type: 'category',
+                data: ['EGB', 'EGD', 'EGM', 'EFB', 'EFD', 'EFM', 'EJB', 'EJD', 'EJM'],
+                axisLabel: { //调整x轴的lablel
+                    textStyle: {
+                        fontSize: 25 // 让字体变大
+                    }
+                }
+            }
+        ],
+        yAxis: [
+            {
+                type: 'value',
+                min:65,
+                axisLabel: { //调整x轴的lablel
+                    textStyle: {
+                        fontSize: 25 // 让字体变大
+                    }
+                }
+            }
+        ],
+        series: [
+            {
+                name: 'LR',
+                type: 'bar',
+                data: [81.30, 79.28, 79.30, 80.67, 78.70, 79.07, 70.59, 73.50, 73.51]/*,
+             markLine : {
+             data : [
+             {type : 'average', name: '平均值'}
+             ]
+             }*/
+            },
+            {
+                name: 'SVM',
+                type: 'bar',
+                data: [78.85, 76.33, 75.90, 78.37, 76.50, 74.70, 68.48, 70.06, 70.90]/*,
+
+             markLine : {
+             data : [
+             {type : 'average', name : '平均值'}
+             ]
+             }*/
+            },
+            {
+                name: 'Mtrick',
+                type: 'bar',
+                data: [82.82, 80.20, 81.44, 82.83, 81.90, 80.38, 72.01, 75.10, 77.01]/*,
+
+             markLine : {
+             data : [
+             {type : 'average', name : '平均值'}
+             ]
+             }*/
+            },
+            {
+                name: 'TriTL',
+                type: 'bar',
+                data: [81.71, 78.20, 80.32, 81.11, 80.79, 77.50, 71.53, 71.60, 76.11]/*,
+
+             markLine : {
+             data : [
+             {type : 'average', name : '平均值'}
+             ]
+             }*/
+            },
+            {
+                name: 'HIDC',
+                type: 'bar',
+                data: [81.70, 80.19, 80.10, 82.19, 82.02, 79.74, 72.74, 76.15, 77.04]/*,
+
+             markLine : {
+             data : [
+             {type : 'average', name : '平均值'}
+             ]
+             }*/
+            },
+            {
+                name: 'DTL',
+                type: 'bar',
+                data: [81.94, 79.74, 81.27, 81.42, 82.08, 78.28, 71.81, 72.48, 77.49]/*,
+
+             markLine : {
+             data : [
+             {type : 'average', name : '平均值'}
+             ]
+             }*/
+            },
+            {
+                name: 'CL-SCL',
+                type: 'bar',
+                data: [83.08, 82.45, 81.99, 82.30, 79.52, 77.44, 73.77, 75.51, 78.90]/*,
+
+             markLine : {
+             data : [
+             {type : 'average', name : '平均值'}
+             ]
+             }*/
+            },
+            {
+                name: 'LAM-TL',
+                type: 'bar',
+                data: [85.24, 82.94, 84.23, 84.35, 84.85, 82.95, 76.17, 77.74, 80.64]/*,
+
+             markLine : {
+             data : [
+             {type : 'average', name : '平均值'}
+             ]
+             }*/
+            },
+        ]
+    };
+
+    // 使用刚指定的配置项和数据显示图表。
+    myChart.setOption(option);
+    window.onresize = function () {
+        resizeWorldMapContainer();
+        myChart.resize();
+    };
+</script>
+</body>
+</html>

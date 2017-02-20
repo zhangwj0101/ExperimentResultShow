@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <title>Hello World!</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Win8 Metro风格界面特效 - 站长素材</title>
+    <link rel="stylesheet" type="text/css" th:href="@{css/reset.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{css/default.css}"/>
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css'/>
+    <link rel="stylesheet" type="text/css" th:href="@{css/styles.css}"/>
+    <!-- 新 Bootstrap 核心 CSS 文件 -->
+    <link href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"/>
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div>
+    <p>准确率</p>
+    <a href="/showAccuracy?datasource=newsgroup" target="_blank">newsgroup</a>
+    <a href="/showAccuracy?datasource=amazon&amp;type=CL" target="_blank">amazon-CL</a>
+    <a href="/showAccuracy?datasource=amazon&amp;type=CLCD" target="_blank">amazon-CLCD</a>
+</div>
+<div>
+    <p>展示系统</p>
+    <form id="form" action="/show2d" target="_blank">
+        <select id="showtype" name="showtype">
+            <option value="2">2D展示</option>
+            <option value="3">3D展示</option>
+        </select>
+        <select name="cat">
+            <option value="comp_rec">comp_rec</option>
+            <option value="comp_sci">comp_sci</option>
+            <option value="comp_talk">comp_talk</option>
+            <option value="rec_sci">rec_sci</option>
+            <option value="rec_talk">rec_talk</option>
+            <option value="sci_talk">sci_talk</option>
+        </select>
+        <select name="compareMethod">
+            <option value="">全部对比</option>
+            <option value="mtrick">mtrick</option>
+            <option value="DTL">DTL</option>
+            <option value="TriTL">TriTL</option>
+            <option value="our">our</option>
+        </select>
+        <input type="submit" name="提交"/>
+    </form>
+</div>
+<script type="text/javascript">
+    $("#showtype").change(function () {
+        var value = $("showtype").find("option:selected").text();
+        var url = (value == '2' ? "show2d" : "show3d");
+        $("#form").attr("action", url);
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>ECharts</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/3.4.0/echarts.min.js"></script>
+</head>
+<body style="background-color: beige;">
+<!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+<div id="head" style="width: 100%;height:50px;text-align:center;"></div>
+<div id="main" style="align:center;margin:0 auto;width: 100%;height:680px;"></div>
+<script type="text/javascript">
+    // 基于准备好的dom，初始化echarts实例
+
+    var worldMapContainer = document.getElementById('main');
+
+    var resizeWorldMapContainer = function () {
+        worldMapContainer.style.width = window.innerHeight * 1.6 + 'px';
+        worldMapContainer.style.height = window.innerHeight * 0.85 + 'px';
+    };
+
+    resizeWorldMapContainer();
+    var myChart = echarts.init(worldMapContainer);
+
+    // 指定图表的配置项和数据
+
+
+    option = {
+        title: {
+            text: ''
+        },
+        tooltip: {
+            trigger: 'axis'
+        },
+        legend: {
+            data: ['LR', 'SVM', 'Mtrick', 'TriTL', 'HIDC', 'DTL', 'LAM-TL'], textStyle: {
+                fontSize: 25 // 让字体变大
+            }
+        },
+        toolbox: {
+            show: true,
+            feature: {
+                dataView: {show: true, readOnly: false},
+                magicType: {show: true, type: ['line', 'bar']},
+                restore: {show: true},
+                saveAsImage: {show: true}
+            }
+        },
+        calculable: true,
+        xAxis: [
+            {
+                type: 'category',
+                data: ['comp_rec', 'comp_sci', 'comp_talk', 'rec_sci', 'rec_talk', 'sci_talk'],
+                axisLabel: { //调整x轴的lablel
+                    textStyle: {
+                        fontSize: 25 // 让字体变大
+                    }
+                }
+            }
+        ],
+        yAxis: [
+            {
+                type: 'value',
+                min:50,
+                axisLabel: { //调整x轴的lablel
+                    textStyle: {
+                        fontSize: 25 // 让字体变大
+                    }
+                }
+            }
+        ],
+        series: [
+            {
+                name: 'LR',
+                type: 'bar',
+                data: [86.49,73.81,95.60,65.70,78.06,57.11]/*,
+             markLine : {
+             data : [
+             {type : 'average', name: '平均值'}
+             ]
+             }*/
+            },
+            {
+                name: 'SVM',
+                type: 'bar',
+                data: [76.44, 67.71, 88.62, 58.78, 68.31, 53.83]/*,
+
+             markLine : {
+             data : [
+             {type : 'average', name : '平均值'}
+             ]
+             }*/
+            },
+            {
+                name: 'Mtrick',
+                type: 'bar',
+                data: [97.87, 81.99, 98.49, 71.48, 86.56, 59.81]/*,
+
+             markLine : {
+             data : [
+             {type : 'average', name : '平均值'}
+             ]
+             }*/
+            },
+            {
+                name: 'TriTL',
+                type: 'bar',
+                data: [97.00, 74.87, 90.43, 92.06, 68.13, 53.75]/*,
+
+             markLine : {
+             data : [
+             {type : 'average', name : '平均值'}
+             ]
+             }*/
+            },
+            {
+                name: 'HIDC',
+                type: 'bar',
+                data: [97.77, 83.05, 97.65, 96.23, 97.18, 91.68]/*,
+
+             markLine : {
+             data : [
+             {type : 'average', name : '平均值'}
+             ]
+             }*/
+            },
+            {
+                name: 'DTL',
+                type: 'bar',
+                data: [94.10, 78.44, 94.67, 95.14, 89.57, 89.48]/*,
+
+             markLine : {
+             data : [
+             {type : 'average', name : '平均值'}
+             ]
+             }*/
+            },
+            {
+                name: 'LAM-TL',
+                type: 'bar',
+                data: [97.49, 85.00, 97.89, 96.41, 95.87, 92.54]/*,
+
+             markLine : {
+             data : [
+             {type : 'average', name : '平均值'}
+             ]
+             }*/
+            },
+        ]
+    };
+
+    // 使用刚指定的配置项和数据显示图表。
+    myChart.setOption(option);
+    window.onresize = function () {
+        resizeWorldMapContainer();
+        myChart.resize();
+    };
+</script>
+</body>
+</html>

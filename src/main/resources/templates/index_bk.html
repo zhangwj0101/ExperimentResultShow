@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Win8 Metro风格界面特效 - 站长素材</title>
+    <link rel="stylesheet" type="text/css" href="css/reset.css"/>
+    <link rel="stylesheet" type="text/css" href="css/default.css"/>
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
+    <!--<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.css'/>-->
+    <link rel="stylesheet" type="text/css" href="css/styles.css"/>
+</head>
+<body>
+<article class="zzsc-container">
+    <br/><br/><br/><br/><br/><br/><br/>
+    <ul class="metro">
+
+        <li id="newsacc"><i class="fa fa-signal" style="margin-top: 65px;"></i><span style="font-size: 20px;">20Newsgroup分类准确率</span>
+        </li>
+        <li id="amazonclcd"><i class="fa fa-pie-chart " style="margin-top: 65px; "></i><span style="font-size: 20px;">Amazon跨语言跨领域分类准确率</span>
+        </li>
+        <li id="amazoncl"><i class="fa fa-line-chart" style="margin-top: 65px;"></i><span style="font-size: 20px;">Amazon跨语言跨领准确率</span>
+        </li>
+        <li id="dataset"><i class="fa fa-database" style="margin-top: 65px;"></i><span style="font-size: 20px;">Newsgroup数据量</span>
+        </li>
+        <li id="all2d"><i class="fa fa-area-chart" style="margin-top: 65px;"></i><span style="font-size: 20px;">2D可视化所有算法降维结果</span>
+        </li>
+        <li id="compare2d"><i class="fa  fa-cubes" style="margin-top: 65px;"></i><span style="font-size: 20px;">2D可视化对比降维结果</span>
+        </li>
+        <li id="d3"><i class="fa fa-adjust fa-spin" style="margin-top: 65px;"></i><span style="font-size: 20px;">3D动态展示数据分布</span>
+        </li>
+    </ul>
+
+    <div class="box">
+        <span class="close"></span>
+        <p></p>
+        <div class="fa fa-adjust fa-spin fa-4x"></div>
+        <div id="show_newsacc" style="display: none">
+            <iframe src="showAccuracy?datasource=newsgroup" style="width: 1300px;height: 750px;"></iframe>
+        </div>
+        <div id="show_amazonclcd" style="display: none">
+            <iframe src="showAccuracy?datasource=amazon&amp;type=CLCD" style="width: 1300px;height: 750px;"></iframe>
+        </div>
+        <div id="show_amazoncl" style="display: none">
+            <iframe src="showAccuracy?datasource=amazon&amp;type=CL" style="width: 1300px;height: 750px;"></iframe>
+        </div>
+        <div id="show_dataset" style="display: none">
+            <iframe src="showdataset" style="width: 1300px;height: 750px;"></iframe>
+        </div>
+        <!--<a id="show_all2d" href="show2d?cat=comp_rec" style="display: none"></a>-->
+        <!--<a id="show_compare2d" href="show2d?cat=comp_rec&amp;compareMethod=mtrick" style="display: none"></a>-->
+        <!--<a id="show_d3" href="show3d?cat=comp_rec&amp;compareMethod=our" style="display: none"></a>-->
+
+        <!--<div id="show_all2d" style="display: none">-->
+        <!--<iframe src="show2d?cat=comp_rec" style="width: 1300px;height: 750px;"></iframe>-->
+        <!--</div>-->
+        <!--<div id="show_compare2d" style="display: none">-->
+        <!--<iframe src="show2d?cat=comp_rec&amp;compareMethod=mtrick" style="width: 1200px;height: 700px;"></iframe>-->
+        <!--</div>-->
+        <!--<div id="show_d3" style="display: none">-->
+        <!--<iframe src="show3d?cat=comp_rec&amp;compareMethod=our" style="width: 1200px;height: 700px;"></iframe>-->
+        <!--</div>-->
+        <div style="display: none">
+            <iframe id="show_all2d" src="" style="width: 1300px;height: 750px;"></iframe>
+        </div>
+        <div style="display: none">
+            <iframe id="show_compare2d" src="" style="width: 1200px;height: 700px;"></iframe>
+        </div>
+        <div style="display: none">
+            <iframe id="show_d3" src="" style="width: 1200px;height: 700px;"></iframe>
+        </div>
+    </div>
+</article>
+<script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.js"></script>
+<script>
+    $(document).ready(function () {
+        var $box = $('.box');
+        $('.metro li').each(function () {
+            var color = $(this).css('backgroundColor');
+            var id = $(this).attr("id");
+            var content = $(this).html();
+            $(this).click(function () {
+//                $box.css('backgroundColor', color);
+                        $(".metro").addClass("frosted-glass");
+                        $box.addClass('open');
+//                $box.find('p').html(content);
+                        console.log($("#show_" + id)[0].src)
+
+                            if (id == 'all2d') {
+                                $("#show_" + id)[0].src = "show2d?cat=comp_rec";
+                            } else if (id == 'compare2d') {
+                                $("#show_" + id)[0].src = "show2d?cat=comp_rec&amp;compareMethod=mtrick";
+                            } else if (id == 'show_d3') {
+                                $("#show_" + id)[0].src = "show3d?cat=comp_rec&amp;compareMethod=our";
+                            }
+
+                        $("#show_" + id).parent().show();
+                    }
+            );
+            $('.close').click(function () {
+                $box.removeClass('open');
+                $(".metro").removeClass("frosted-glass");
+                $("#show_" + id).parent().hide();
+//                $box.css('backgroundColor', 'transparent');
+            });
+        });
+    });
+
+</script>
+
+
+</body>
+</html>

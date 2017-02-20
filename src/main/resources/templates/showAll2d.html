@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <title>Hello World!</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/3.4.0/echarts.min.js"></script>
+    <script th:src="@{'/newsgroup_2d/'+${datatype}+'_tsne_mtrick.csv.js'}"></script>
+    <script th:src="@{'/newsgroup_2d/'+${datatype}+'_tsne_DTL.csv.js'}"></script>
+    <script th:src="@{'/newsgroup_2d/'+${datatype}+'_tsne_TriTL.csv.js'}"></script>
+    <script th:src="@{'/newsgroup_2d/'+${datatype}+'_tsne_LAM.csv.js'}"></script>
+
+</head>
+<body style="background-color: beige;">
+<form id="form" action="/show2d" target="_blank">
+
+    <select name="cat">
+        <option value="comp_rec">comp_rec</option>
+        <option value="comp_sci">comp_sci</option>
+        <option value="comp_talk">comp_talk</option>
+        <option value="rec_sci">rec_sci</option>
+        <option value="rec_talk">rec_talk</option>
+        <option value="sci_talk">sci_talk</option>
+    </select>
+    <input type="submit" name="提交"/>
+</form>
+<!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+<!--<div id="head" style="width: 100%;height:25px;text-align:center;">文档降维可视化展示</div>-->
+<div id="main" style="align:center;margin :0 auto;width: 100%;height:90%;"></div>
+<script type="text/javascript">
+    // 基于准备好的dom，初始化echarts实例
+
+    var worldMapContainer = document.getElementById('main');
+
+    var resizeWorldMapContainer = function () {
+        worldMapContainer.style.width = window.innerHeight * 1.3 + 'px';
+        worldMapContainer.style.height = window.innerHeight * 0.95 + 'px';
+    };
+
+    resizeWorldMapContainer();
+    var myChart = echarts.init(worldMapContainer);
+    // 指定图表的配置项和数据
+
+
+    option = {
+        title: {
+            text: '文档降维可视化展示',
+            x: 'center',
+            y: -4,
+            textStyle: {
+                color: '#333',
+                fontStyle: 'normal',
+                fontWeight: 'bolder',
+                fontFamily: 'sans-serif',
+                fontSize: 32
+            },
+        },
+        tooltip: {
+            formatter: 'Group {a}: ({c})'
+        },
+        color: ['red', 'blue'],
+        toolbox: {
+            show: true,
+            feature: {
+                mark: {show: true},
+                dataView: {show: true, readOnly: false},
+                magicType: {show: true, type: ['line', 'bar']},
+                dataZoom: {
+                    yAxisIndex: 'none'
+                },
+                restore: {show: true},
+                saveAsImage: {show: true}
+            }
+        },
+        legend: {
+            x: 50,
+            y: 'top',
+            data: ['1', '2'],
+            textStyle: {
+                color: '#000',
+                fontSize: 16
+            }
+        },
+        grid: [
+            {x: '4%', y: '7%', width: '41%', height: '41%', borderColor: 'black', show: true, borderWidth: 2},
+            {x2: '4%', y: '7%', width: '41%', height: '41%', borderColor: 'black', show: true, borderWidth: 2},
+            {x: '4%', y2: '5%', width: '41%', height: '41%', borderColor: 'black', show: true, borderWidth: 2},
+            {x2: '4%', y2: '5%', width: '41%', height: '41%', borderColor: 'black', show: true, borderWidth: 2}
+        ],
+
+        xAxis: [
+            {gridIndex: 0, min: -100, max: 100},
+            {gridIndex: 1, min: -100, max: 100},
+            {gridIndex: 2, min: -100, max: 100},
+            {gridIndex: 3, min: -100, max: 100}
+        ],
+        yAxis: [
+            {
+                gridIndex: 0, min: -100, max: 100, name: 'Mtrick', nameGap: 20, nameLocation: 'start', nameTextStyle: {
+                fontSize: 20
+            }
+            },
+            {
+                gridIndex: 1, min: -100, max: 100, name: 'DTL', nameLocation: 'start', nameGap: 20, nameTextStyle: {
+                fontSize: 20
+            }
+            },
+            {
+                gridIndex: 2, min: -100, max: 100, name: 'TriTL', nameLocation: 'start', nameGap: 20, nameTextStyle: {
+                fontSize: 20
+            }
+            },
+            {
+                gridIndex: 3,
+                min: -100,
+                max: 100,
+                name: 'LAM-TL',
+                nameLocation: 'start',
+                nameGap: 20,
+                nameTextStyle: {
+                    fontSize: 20
+                }
+            }
+        ],
+        series: [
+            {
+                name: '1',
+                symbolSize: 5,
+                type: 'scatter',
+                xAxisIndex: 0,
+                yAxisIndex: 0,
+                data: mtrick[0], large: true
+
+            },
+            {
+                name: '2',
+                type: 'scatter',
+                symbolSize: 5,
+                xAxisIndex: 0,
+                yAxisIndex: 0,
+                data: mtrick[1], large: true
+
+            },
+            {
+                name: '1',
+                symbolSize: 5,
+                type: 'scatter',
+                xAxisIndex: 1,
+                yAxisIndex: 1,
+                data: DTL[0], large: true
+
+            },
+            {
+                name: '2',
+                type: 'scatter',
+                symbolSize: 5,
+                xAxisIndex: 1,
+                yAxisIndex: 1,
+                data: DTL[1], large: true
+
+            },
+            {
+                name: '1',
+                symbolSize: 5,
+                type: 'scatter',
+                xAxisIndex: 2,
+                yAxisIndex: 2,
+                data: TriTL[0], large: true
+
+            },
+            {
+                name: '2',
+                type: 'scatter',
+                symbolSize: 5,
+                xAxisIndex: 2,
+                yAxisIndex: 2,
+                data: TriTL[1], large: true
+
+            },
+            {
+                name: '1',
+                symbolSize: 5,
+                type: 'scatter',
+                xAxisIndex: 3,
+                yAxisIndex: 3,
+                data: LAM[0], large: true
+
+            },
+            {
+                name: '2',
+                type: 'scatter',
+                symbolSize: 5,
+                xAxisIndex: 3,
+                yAxisIndex: 3,
+                data: LAM[1], large: true
+
+            },
+        ]
+    };
+
+    // 使用刚指定的配置项和数据显示图表。
+    myChart.setOption(option);
+    window.onresize = function () {
+        resizeWorldMapContainer();
+        myChart.resize();
+    };
+
+</script>
+<p th:text="${datatype}"></p>
+</body>
+</html>
