@@ -38,10 +38,13 @@ public class TemplateController {
     }
 
     @RequestMapping("/show2d")
-    public String show2d(@RequestParam("cat") String cat,
+    public String show2d(@RequestParam("dataset") String dataset,
+                         @RequestParam(name = "a_cat", required = false) String a_cat,
+                         @RequestParam(name = "n_cat", required = false) String n_cat,
                          @RequestParam(value = "compareMethod", required = false) String compareMethod,
                          Map<String, Object> map) {
-        map.put("datatype", cat);
+        map.put("dataset", dataset);
+        map.put("datatype", dataset.equals("newsgroup") ? n_cat : a_cat);
         boolean d3 = (compareMethod != null && compareMethod.length() > 1);
         if (d3) {
             map.put("compareMethod", compareMethod);
@@ -50,10 +53,13 @@ public class TemplateController {
     }
 
     @RequestMapping("/show3d")
-    public String show3d(@RequestParam("cat") String cat,
+    public String show3d(@RequestParam("dataset") String dataset,
+                         @RequestParam(name = "a_cat", required = false) String a_cat,
+                         @RequestParam(name = "n_cat", required = false) String n_cat,
                          @RequestParam("compareMethod") String method,
                          Map<String, Object> map) {
-        map.put("datatype", cat);
+        map.put("dataset", dataset);
+        map.put("datatype", dataset.equals("newsgroup") ? n_cat : a_cat);
         map.put("method", method);
         return "show3d";
     }

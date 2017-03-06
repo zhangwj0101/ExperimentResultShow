@@ -1,10 +1,10 @@
 <!doctype html>
-<html lang="zh">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Win8 Metro风格界面特效 - 站长素材</title>
+    <title>跨领域i可视化展示系统</title>
     <link rel="stylesheet" type="text/css" href="css/reset.css"/>
     <link rel="stylesheet" type="text/css" href="css/default.css"/>
     <link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
@@ -51,19 +51,21 @@
         <!--<a id="show_compare2d" href="show2d?cat=comp_rec&amp;compareMethod=mtrick" style="display: none"></a>-->
         <!--<a id="show_d3" href="show3d?cat=comp_rec&amp;compareMethod=our" style="display: none"></a>-->
 
-        <div id="show_all2d" style="display: none">
-            <iframe src="show2d?cat=comp_rec" style="width: 1300px;height: 750px;"></iframe>
-        </div>
-        <div id="show_compare2d" style="display: none">
-            <iframe src="show2d?cat=comp_rec&amp;compareMethod=mtrick" style="width: 1200px;height: 700px;"></iframe>
-        </div>
-        <div id="show_d3" style="display: none">
-            <iframe src="show3d?cat=comp_rec&amp;compareMethod=mtrick" style="width: 1200px;height: 700px;"></iframe>
-        </div>
+        <!--<div id="show_all2d" style="display: none">-->
+        <!--&lt;!&ndash;<iframe src="show2d?dataset=newsgroup&amp;n_cat=comp_rec" style="width: 1300px;height: 750px;"></iframe>&ndash;&gt;-->
+        <!--</div>-->
+        <!--<div id="show_compare2d" style="display: none">-->
+        <!--&lt;!&ndash;<iframe src="show2d?dataset=newsgroup&amp;n_cat=comp_rec&amp;compareMethod=mtrick"&ndash;&gt;-->
+        <!--&lt;!&ndash;style="width: 1200px;height: 700px;"></iframe>&ndash;&gt;-->
+        <!--</div>-->
+        <!--<div id="show_d3" style="display: none">-->
+        <!--&lt;!&ndash;<iframe src="show3d?dataset=newsgroup&amp;n_cat=comp_rec&amp;compareMethod=mtrick" style="width: 1200px;height: 700px;"></iframe>&ndash;&gt;-->
+        <!--</div>-->
     </div>
 </article>
 <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.js"></script>
-<script>
+<script type="text/javascript">
+    /*<![CDATA[*/
     $(document).ready(function () {
         var $box = $('.box');
         $('.metro li').each(function () {
@@ -72,22 +74,31 @@
             var content = $(this).html();
             $(this).click(function () {
 //                $box.css('backgroundColor', color);
+
+
+                    if (id == 'all2d') {
+                        var all2 = "show2d?dataset=newsgroup&n_cat=comp_rec";
+                        window.open(all2);
+                    } else if (id == 'compare2d') {
+                        window.open("show2d?dataset=newsgroup&n_cat=comp_rec&compareMethod=mtrick");
+                    } else if (id == 'd3') {
+                        window.open("show3d?dataset=newsgroup&n_cat=comp_rec&compareMethod=mtrick");
+                    } else {
                         $(".metro").addClass("frosted-glass");
                         $box.addClass('open');
-//                $box.find('p').html(content);
-
                         $("#show_" + id).show();
                     }
+                }
             );
             $('.close').click(function () {
                 $box.removeClass('open');
                 $(".metro").removeClass("frosted-glass");
                 $("#show_" + id).hide();
-                $box.css('backgroundColor', 'transparent');
+//                $box.css('backgroundColor', 'transparent');
             });
         });
     });
-
+    /*]]>*/
 </script>
 
 

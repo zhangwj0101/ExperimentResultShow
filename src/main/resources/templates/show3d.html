@@ -4,34 +4,114 @@
     <meta charset="utf-8"/>
     <title>Hello World!</title>
     <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.js"></script>
+    <link href="//cdn.bootcss.com/bootstrap/4.0.0-alpha.6/css/bootstrap.css" rel="stylesheet"/>
     <script src="https://code.highcharts.com/highcharts.js"></script>
     <!--<script src="https://img.hcharts.cn/highstock/highstock.js"></script>-->
     <script src="http://code.highcharts.com/highcharts-3d.js"></script>
     <script src="https://code.highcharts.com/modules/exporting.js"></script>
     <script src="https://img.hcharts.cn/highcharts/modules/data.js"></script>
     <script src="https://code.highcharts.com/modules/boost.js"></script>
-    <script th:src="@{'/newsgroup_3d/'+${datatype}+'_tsne_'+${method}+'-d3.csv.js'}"></script>
+    <link href='http://fonts.googleapis.com/css?family=Raleway:400,300,700' rel='stylesheet' type='text/css'/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/3.4.0/echarts.min.js"></script>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/normalize.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/demo.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/cs-select.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/cs-skin-elastic.css}"/>
+    <script th:src="@{'/'+${dataset}+'_3d/'+${datatype}+'_tsne_'+${method}+'-d3.csv.js'}"></script>
+    <style>
+        .myclose {
+            display: inline !important;
+        }
+    </style>
 </head>
-<body style="background-color: beige;">
-<form id="form" action="/show3d" target="_blank">
-    <select name="cat">
-        <option value="comp_rec">comp_rec</option>
-        <option value="comp_sci">comp_sci</option>
-        <option value="comp_talk">comp_talk</option>
-        <option value="rec_sci">rec_sci</option>
-        <option value="rec_talk">rec_talk</option>
-        <option value="sci_talk">sci_talk</option>
-    </select>
-    <select name="compareMethod">
-        <option value="">全部对比</option>
+<body style="background-color: beige;margin: 0;padding:0;border: 0;height: 100%;">
+<form id="form" action="/show3d" style="height: 50px;    width: 60%;">
+
+    <div style="display:inline;">
+        <select id="dataset" name="dataset" class="cs-select cs-skin-elastic">
+            <option value="" disabled="disabled">数据集</option>
+            <option value="newsgroup">newsgroup</option>
+            <!--<option value="amazon">amazon</option>-->
+        </select>
+    </div>
+    <div id="newsgroup_cat" class="second" style="display:none;">
+        <select name="n_cat" class="cs-select cs-skin-elastic">
+            <option value="" disabled="disabled">对比组</option>
+            <option value="comp_rec">comp_rec</option>
+            <option value="comp_sci">comp_sci</option>
+            <option value="comp_talk">comp_talk</option>
+            <option value="rec_sci">rec_sci</option>
+            <option value="rec_talk">rec_talk</option>
+            <option value="sci_talk">sci_talk</option>
+        </select>
+    </div>
+
+    <!--<div id="amazon_cat" class="second myclose" style="display: none;">-->
+        <!--<select name="a_cat" class="cs-select cs-skin-elastic">-->
+            <!--<option value="" disabled="disabled">对比组</option>-->
+            <!--<option value="en_de_books_books">en_de_books_books</option>-->
+            <!--<option value="en_de_books_dvd">en_de_books_dvd</option>-->
+            <!--<option value="en_de_books_music">en_de_books_music</option>-->
+            <!--<option value="en_de_dvd_books">en_de_dvd_books</option>-->
+            <!--<option value="en_de_dvd_dvd">en_de_dvd_dvd</option>-->
+            <!--<option value="en_de_dvd_music">en_de_dvd_music</option>-->
+            <!--<option value="en_de_music_books">en_de_music_books</option>-->
+            <!--<option value="en_de_music_dvd">en_de_music_dvd</option>-->
+            <!--<option value="en_de_music_music">en_de_music_music</option>-->
+            <!--<option value="en_fr_books_books">en_fr_books_books</option>-->
+            <!--<option value="en_fr_books_dvd">en_fr_books_dvd</option>-->
+            <!--<option value="en_fr_books_music">en_fr_books_music</option>-->
+            <!--<option value="en_fr_dvd_books">en_fr_dvd_books</option>-->
+            <!--<option value="en_fr_dvd_dvd">en_fr_dvd_dvd</option>-->
+            <!--<option value="en_fr_dvd_music">en_fr_dvd_music</option>-->
+            <!--<option value="en_fr_music_books">en_fr_music_books</option>-->
+            <!--<option value="en_fr_music_dvd">en_fr_music_dvd</option>-->
+            <!--<option value="en_fr_music_music">en_fr_music_music</option>-->
+            <!--<option value="en_jp_books_books">en_jp_books_books</option>-->
+            <!--<option value="en_jp_books_dvd">en_jp_books_dvd</option>-->
+            <!--<option value="en_jp_books_music">en_jp_books_music</option>-->
+            <!--<option value="en_jp_dvd_books">en_jp_dvd_books</option>-->
+            <!--<option value="en_jp_dvd_dvd">en_jp_dvd_dvd</option>-->
+            <!--<option value="en_jp_dvd_music">en_jp_dvd_music</option>-->
+            <!--<option value="en_jp_music_books">en_jp_music_books</option>-->
+            <!--<option value="en_jp_music_dvd">en_jp_music_dvd</option>-->
+            <!--<option value="en_jp_music_music">en_jp_music_music</option>-->
+
+        <!--</select>-->
+    <!--</div>-->
+    <select name="compareMethod" class="cs-select cs-skin-elastic">
+        <option value="" disabled="disabled">全部对比</option>
         <option value="mtrick">mtrick</option>
         <option value="DTL">DTL</option>
         <option value="TriTL">TriTL</option>
-        <option value="LAM">our</option>
-        <option value="LSF">our</option>
+        <option value="LAM">LAM</option>
+        <option value="LSF">LSF</option>
     </select>
-    <input type="submit" name="提交"/>
+
+    <input type="submit" class="btn btn-primary" style="float:right; height: 80%;width: 100px;" name="tijiao"
+           value="提交"/>
 </form>
+<script th:src="@{/js/classie.js}"></script>
+<script th:src="@{/js/selectFx.js}"></script>
+<script>
+
+    (function () {
+        [].slice.call(document.querySelectorAll('select.cs-select')).forEach(function (el) {
+
+            if (el.id == "dataset") {
+                var ess = new SelectFx(el, {
+                    onChange: function (va) {
+                        $(".second").removeClass("myclose");
+                        $("#" + va + "_cat").addClass("myclose");
+                    }
+                });
+            } else {
+                var ess = new SelectFx(el);
+            }
+        });
+    })();
+
+</script>
 <script th:inline="javascript">
     var compareMehtodData = [];
     var othermethod = [[${method}]];
@@ -49,8 +129,6 @@
     } else if (othermethod == 'LSF') {
         compareMehtodData = LSF;
     }
-    console.log(othermethod);
-    console.log(compareMehtodData);
 </script>
 <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
 <!--<div id="head" style="width: 100%;height:25px;text-align:center;">文档降维可视化展示</div>-->
@@ -155,12 +233,12 @@
         $(chart.container).bind('mousedown.hc touchstart.hc', function (e) {
             e = chart.pointer.normalize(e);
             var posX = e.pageX,
-                    posY = e.pageY,
-                    alpha = chart.options.chart.options3d.alpha,
-                    beta = chart.options.chart.options3d.beta,
-                    newAlpha,
-                    newBeta,
-                    sensitivity = 10; // lower is more sensitive
+                posY = e.pageY,
+                alpha = chart.options.chart.options3d.alpha,
+                beta = chart.options.chart.options3d.beta,
+                newAlpha,
+                newBeta,
+                sensitivity = 10; // lower is more sensitive
             $(document).bind({
                 'mousemove.hc touchdrag.hc': function (e) {
                     // Run beta
